@@ -27,19 +27,19 @@ long int binary_search(long int a[], long int l, long int r, long int k){
 
    if(l <= r){
 
-         long int m = l + (r-l)/2;
+      long int m = l + (r-l)/2;
 
-         if(a[m] == k){
-            return m;
-         }
+      if(a[m] == k){
+         return m;
+      }
 
-         if(a[m] < k){
-            return binary_search(a,m+1,r,k);
-         }
+      if(a[m] < k){
+         return binary_search(a,m+1,r,k);
+      }
 
-         if(a[m] > k){
-            return binary_search(a,l,m-1,k);
-         }
+      if(a[m] > k){
+         return binary_search(a,l,m-1,k);
+      }
 
    }
 
