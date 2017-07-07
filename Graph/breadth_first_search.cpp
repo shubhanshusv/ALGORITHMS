@@ -1,11 +1,12 @@
 // Shubhanshu Verma
 
-// Representation of graph using Adjacency list
+// BFS (Breadth First Search)
 
 #include <iostream>
 #include <bits/stdc++.h>
 #include <cmath>
 #include <cstdio>
+#include <vector>
 using namespace std;
 
 struct node{
@@ -20,53 +21,52 @@ struct node* make_node(long int id, struct node* next);
 void add_node(struct node* a, long int b);
 struct node* add_node_short(struct node* a, long int b);
 void print_graph(struct node* graph[], long int n);
+void bfs(struct node* graph[], int color[], long int d[],long int parent[]);
+std::vector<int> v;
 
 int main(){
 
-   long int n = 5;
+   long int n = 4;
 
-    struct node* graph[n];
-    struct node* last_member[n];
-
+   struct node* graph[n];
    long int i;
+   int color[n];
+   long int distance[n];
+   long int parent[n];
 
    for(i=0;i<n;i++){
 
         graph[i] = make_node(i,NULL);
-        // avoid declaring last member if u are not using add_node_short
-        last_member[i] = graph[i];
 
    }
 
    // Using add_node
 
-   // add_node(graph[0],1);
-   // add_node(graph[0],4);
-   // add_node(graph[1],0);
-   // add_node(graph[1],4);
-   // add_node(graph[4],0);
-   // add_node(graph[4],1);
-   // add_node(graph[1],2);
-   // add_node(graph[2],1);
-   // add_node(graph[2],3);
-   // add_node(graph[3],2);
+   add_node(graph[0],1);
+   add_node(graph[0],2);
+   add_node(graph[1],2);
+   add_node(graph[2],0);
+   add_node(graph[2],3);
+   add_node(graph[3],3);
 
-   // using add_node_short
+   //print_graph(graph,n);
 
-   last_member[0] = add_node_short(last_member[0],1);
-   last_member[0] = add_node_short(last_member[0],4);
-   last_member[1] = add_node_short(last_member[1],0);
-   last_member[1] = add_node_short(last_member[1],4);
-   last_member[4] = add_node_short(last_member[4],0);
-   last_member[4] = add_node_short(last_member[4],1);
-   last_member[1] = add_node_short(last_member[1],2);
-   last_member[2] = add_node_short(last_member[2],1);
-   last_member[2] = add_node_short(last_member[2],3);
-   last_member[3] = add_node_short(last_member[3],2);
+   // bfs at node 2
 
+   for(i=0;i<n;i++){
 
-    print_graph(graph,n);
+      color[i] = 0;
 
+   }
+
+   v.push_back(2);
+   color[2] = 1;
+   parent[2] = -1;  // nil
+   distance[2] = 0;
+
+   cout << "BFS at node 2" << endl;
+
+   bfs(graph,color,distance,parent);
 
    return 0;
 
@@ -150,5 +150,39 @@ void print_graph(struct node* graph[], long int n){
 
    }
 
+
+}
+
+void bfs(struct node* graph[], int color[], long int d[],long int parent[]){
+
+   struct node* p;
+   long int id;
+
+   while(v.size() != 0){
+
+      id = v.front();
+      p = graph[id];
+      cout << id << " ";
+      v.erase(v.begin());
+
+      while(p->next != NULL){
+
+         if(color[p->next->id] == 0){
+
+            color[p->next->id] = 1;
+            d[p->next->id] = d[id] + 1;
+            parent[p->next->id] = id;
+
+            v.push_back(p->next->id);
+
+         }
+
+         p = p->next;
+
+      }
+
+      color[id] = 2;
+
+   }
 
 }
